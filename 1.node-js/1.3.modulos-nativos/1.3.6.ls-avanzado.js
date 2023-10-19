@@ -9,7 +9,10 @@ fs.readdir(folder, (err, files) => {
     }
     files.forEach(file => {
         const filePath = path.join(folder, file);
-        console.log(folder);
         console.log(filePath);
+        //archivo o folder?
+        // nombre               //fs.stat
+        //fileSize
+        //fecha de modificacion
     });
 })
