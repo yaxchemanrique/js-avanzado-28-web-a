@@ -11,9 +11,9 @@
     <h1>Hola desde views/index.ejs</h1>
     <p>
         <!-- Se muestra en el navegador -->
-        <%= text %>
+        <%= locals.text || 'default' %>
             <!-- NO se muestra en el navegador! -->
-            <% 2**3 %>
+            <%= 2**3 %>
     </p>
 </body>
 
