@@ -5,13 +5,14 @@ const request = new XMLHttpRequest();
 // request.open('GET', 'https://restcountries.com/v3.1/name/mexico?access_key=${TOKEN}');
 // Archivo .env
 
-const setCountryHTML = function (data, element) {
-    const currencies = Object.keys(data.currencies);
-    const mainCurrency = currencies[0];
+const setCountryHTML = function (data, className = '') {
+    const country = document.createElement('div');
     const languages = Object.keys(data.languages);
     const mainLanguage = languages[0];
+    const currencies = Object.keys(data.currencies);
+    const mainCurrency = currencies[0];
 
-    element.innerHTML = `
+    country.innerHTML = `
         <div class="flag">
             <img src="${data.flags.png}" alt="${data.flags.alt}">
         </div>
@@ -31,9 +32,13 @@ const setCountryHTML = function (data, element) {
                 <span>${data.currencies[mainCurrency].name}</span>
             </p>
     `;
+
+    country.classList = `country ${className}`;
+    countriesContainer.appendChild(country);
 }
 
 /*
+!Callback hell
 const getCountryAndNeighbour = function(countryName) {
     request.open('GET', `https://restcountries.com/v3.1/name/${countryName}`);
     request.send();
@@ -71,14 +76,8 @@ const getCountryAndNeighbour = function(countryName) {
 getCountryAndNeighbour('spain');
 */
 
-const setCountry = function (data) {
-    const JsonData = data[0];
-    const country = document.createElement('div');
-    setCountryHTML(JsonData, country);
-    country.classList = 'country';
-    countriesContainer.appendChild(country);
-}
 /*
+! Fetch y .then()
 const getCountryData = function (countryName) {
     fetch(`https://restcountries.com/v3.1/name/${countryName}`)
         .then( function (response) {
@@ -108,7 +107,8 @@ const getCountryData = function (countryName) {
             countriesContainer.appendChild(country);
         })
 }*/
-
+/*
+! Simplificado con arrow funtions
 const getCountryData = function (countryName) {
     fetch(`https://restcountries.com/v3.1/name/${countryName}`)
         .then(response => response.json())
@@ -118,7 +118,6 @@ const getCountryData = function (countryName) {
             setCountryHTML(jsonData, country);
             country.classList = 'country';
             countriesContainer.appendChild(country);
-
             const neighbour = jsonData.borders[0];
             if(!neighbour) return;
 
@@ -132,7 +131,33 @@ const getCountryData = function (countryName) {
             country.classList = 'country neighbour';
             countriesContainer.appendChild(country);
         })
+}*/
+
+// !Correccion de l funcion setCountry 
+// (que deberia llamarse algo como destructuración de datos)
+const setCountry = function (data) {
+    const jsonData = data[0];
+    return jsonData;
+};
+
+const getCountryData = function (countryName) {
+    fetch(`https://restcountries.com/v3.1/name/${countryName}`)
+        .then(response => response.json())
+        .then((data) => {
+            const jsonData = setCountry(data);
+            setCountryHTML(jsonData);
+
+            const neighbour = jsonData.borders[0];
+            if(!neighbour) return;
+
+            return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`)
+        })
+        .then(response => response.json())
+        .then(function (data2) {
+            const jsonData = setCountry(data2);
+            setCountryHTML(jsonData, 'neighbour');
+        })
 }
 
-// getCountryData('mexico')
+// getCountryData('mexico');
 getCountryData('usa');
