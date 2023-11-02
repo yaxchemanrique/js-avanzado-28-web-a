@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap');
+
+:root {
+	--ff-regular: 'Quicksand', sans-serif;
+	--shadow-color: 0deg 0% 71%;
+	--shadow-elevation-medium: 0.9px 0.8px 1.4px hsl(var(--shadow-color) / 0.27),
+		2.6px 2.4px 4px -0.8px hsl(var(--shadow-color) / 0.27),
+		6.3px 6px 9.8px -1.7px hsl(var(--shadow-color) / 0.27),
+		15.1px 14.4px 23.5px -2.5px hsl(var(--shadow-color) / 0.27);
+}
+
+html {
+	font-family: var(--ff-regular);
+}
+
+body {
+	min-height: 100vh;
+	min-height: 100dvh;
+	display: grid;
+	place-items: center;
+}
+
+h2 {
+	font-size: 2rem;
+	margin-bottom: 0.2rem;
+}
+
+h3 {
+	margin-top: 0;
+	opacity: 0.6;
+	font-size: 1rem;
+	text-transform: uppercase;
+}
+
+.countries-container {
+	margin-inline: auto;
+	display: grid;
+	align-items: end;
+	grid-template-columns: repeat(2, min-content);
+	gap: 4rem;
+}
+
+.country {
+	border-radius: 1rem;
+	box-shadow: var(--shadow-elevation-medium);
+}
+
+.country .flag {
+	border-radius: 1rem 1rem 0 0;
+	overflow: hidden;
+}
+
+.country > *:not(.flag) {
+	margin-left: 2rem;
+}
+
+.country-info {
+	margin-block: 2rem;
+}
+
+.country-info > * {
+	margin-block: 0.7rem;
+}
+
+.country-info p {
+	display: block flex;
+	gap: 0.8rem;
+}
+
+.country.neighbor {
+	position: relative;
+}
+
+.country.neighbor .flag > img {
+	width: 250px;
+	height: auto;
+}
+
+.country.neighbor::before {
+	position: absolute;
+	top: -40px;
+	width: 100%;
+	content: 'neighbor country';
+	text-transform: uppercase;
+	text-align: center;
+}
