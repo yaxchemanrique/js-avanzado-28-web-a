@@ -157,6 +157,10 @@ const getCountryData = function (countryName) {
             const jsonData = setCountry(data2);
             setCountryHTML(jsonData, 'neighbour');
         })
+        .catch(err => console.error(`Error Stack: ${err.stack}
+        Error name: ${err.name}
+        Error message: ${err.message}`))
+        .finally(console.log('finally ejecutado!'))
 }
 
 // getCountryData('mexico');
